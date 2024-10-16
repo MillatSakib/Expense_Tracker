@@ -1,6 +1,6 @@
 import React from "react";
 
-const ExpenseCard = () => {
+const ExpenseCard = ({ setSortFilter, sortFilter }) => {
   return (
     <>
       <div className="border rounded-md">
@@ -42,6 +42,15 @@ const ExpenseCard = () => {
                   id="menu-button2"
                   aria-expanded="true"
                   aria-haspopup="true"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setSortFilter({
+                      incomeSort: false,
+                      incomeFilter: false,
+                      expenseSort: !sortFilter.expenseSort,
+                      expenseFilter: false,
+                    });
+                  }}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -72,7 +81,10 @@ const ExpenseCard = () => {
                 aria-labelledby="menu-button2"
                 tabIndex="-1"
               >
-                <div className="py-1" role="none">
+                <div
+                  className={`py-1 ${sortFilter.expenseFilter || "hidden"}`}
+                  role="none"
+                >
                   <a
                     href="#"
                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-all"
@@ -103,6 +115,15 @@ const ExpenseCard = () => {
                   id="filter-button-2"
                   aria-expanded="true"
                   aria-haspopup="true"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setSortFilter({
+                      incomeSort: false,
+                      incomeFilter: false,
+                      expenseSort: false,
+                      expenseFilter: !sortFilter.expenseFilter,
+                    });
+                  }}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -138,7 +159,10 @@ const ExpenseCard = () => {
                 tabIndex="-1"
                 id="filter-dropdown2"
               >
-                <div className="py-1" role="none">
+                <div
+                  className={`py-1 ${sortFilter.expenseSort || "hidden"}`}
+                  role="none"
+                >
                   <label className="inline-flex items-center px-4 py-2 text-sm text-gray-700">
                     <input
                       type="checkbox"

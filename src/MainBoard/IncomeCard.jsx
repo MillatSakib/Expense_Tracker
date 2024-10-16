@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 
-const IncomeCard = () => {
+const IncomeCard = ({ setSortFilter, sortFilter }) => {
   return (
     <>
       <div className="border rounded-md relative">
@@ -39,6 +39,15 @@ const IncomeCard = () => {
                   id="menu-button"
                   aria-expanded="true"
                   aria-haspopup="true"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setSortFilter({
+                      incomeSort: false,
+                      incomeFilter: !sortFilter.incomeFilter,
+                      expenseSort: false,
+                      expenseFilter: false,
+                    });
+                  }}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -69,7 +78,10 @@ const IncomeCard = () => {
                 aria-labelledby="menu-button"
                 tabIndex="-1"
               >
-                <div className="py-1" role="none">
+                <div
+                  className={`py-1 ${sortFilter.incomeSort || "hidden"}`}
+                  role="none"
+                >
                   <a
                     href="#"
                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-all"
@@ -100,6 +112,15 @@ const IncomeCard = () => {
                   id="filter-button"
                   aria-expanded="true"
                   aria-haspopup="true"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setSortFilter({
+                      incomeSort: !sortFilter.incomeSort,
+                      incomeFilter: false,
+                      expenseSort: false,
+                      expenseFilter: false,
+                    });
+                  }}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -135,7 +156,10 @@ const IncomeCard = () => {
                 tabIndex="-1"
                 id="filter-dropdown"
               >
-                <div className="py-1" role="none">
+                <div
+                  className={`py-1 ${sortFilter.incomeFilter || "hidden"}`}
+                  role="none"
+                >
                   <label className="inline-flex items-center px-4 py-2 text-sm text-gray-700">
                     <input
                       type="checkbox"
