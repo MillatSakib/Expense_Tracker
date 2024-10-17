@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-const CalcualtionSummary = ({ info }) => {
+const CalcualtionSummary = ({ expenseState, incomeState }) => {
   return (
     <>
       <div className="bg-white">
@@ -8,24 +8,28 @@ const CalcualtionSummary = ({ info }) => {
           <dl className="grid grid-cols-1 text-center lg:grid-cols-3 divide-x-2 border rounded-md overflow-hidden">
             <div className="bg-[#F9FAFB] flex lg:max-w-xs flex-col px-4 py-4">
               <dt className="text-base leading-7 text-gray-600">Balance</dt>
-              <dd className="order-first text-xl font-semibold tracking-tight text-gray-700 sm:text-3xl">
-                BDT {info.income}
-              </dd>
+              <div
+                className={`order-first text-xl font-semibold tracking-tight text-gray-700 sm:text-3xl ${
+                  incomeState - expenseState < 0 && "text-red-500"
+                }`}
+              >
+                BDT {incomeState - expenseState}
+              </div>
             </div>
             <div className="bg-[#F9FAFB] flex lg:max-w-xs flex-col px-4 py-4">
               <dt className="text-base leading-7 text-gray-600">
                 Total Income
               </dt>
-              <dd className="order-first text-xl font-semibold tracking-tight text-gray-700 sm:text-3xl">
-                BDT {info.expense}
-              </dd>
+              <div className="order-first text-xl font-semibold tracking-tight text-gray-700 sm:text-3xl">
+                BDT {incomeState}
+              </div>
             </div>
             <div className="bg-[#F9FAFB] flex lg:max-w-xs flex-col px-4 py-4">
               <dt className="text-base leading-7 text-gray-600">
                 Total Expense
               </dt>
               <dd className="order-first text-xl font-semibold tracking-tight text-gray-700 sm:text-3xl">
-                BDT {info.total}
+                BDT {expenseState}
               </dd>
             </div>
           </dl>

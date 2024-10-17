@@ -1,6 +1,50 @@
-import React from "react";
+import React, { useState } from "react";
 
-const ExpenseInputFrom = () => {
+const ExpenseInputFrom = ({
+  activeTab,
+  setActiveTab,
+  expense,
+  setExpense,
+  income,
+  setIncome,
+}) => {
+  const tabValueVarient = [
+    [
+      "Education",
+      "Food",
+      "Health",
+      "Bill",
+      "Insurance",
+      "Tax",
+      "Transport",
+      "Telephone",
+    ],
+    ["Salary", "Outsourcing", "Bond", "Dividend"],
+  ];
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (activeTab) {
+      let temp = [...income];
+      temp.push(formValue);
+      setIncome(temp);
+    } else {
+      let temp = [...expense];
+      temp.push(formValue);
+      setExpense(temp);
+    }
+  };
+
+  const [formValue, setFromValue] = useState({});
+  const handleChange = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+    setFromValue({
+      ...formValue,
+      [name]: value,
+    });
+  };
+
   return (
     <>
       <div className="p-6 py-8 bg-[#F9FAFB] border rounded-md">
@@ -8,12 +52,28 @@ const ExpenseInputFrom = () => {
           Expense Tracker
         </h2>
 
-        <htmlForm>
+        <form onSubmit={handleSubmit}>
           <div className="flex divide-x divide-slate-400/20 overflow-hidden rounded-md bg-white text-[0.8125rem] font-medium leading-5 text-slate-700 shadow-sm ring-1 ring-slate-700/10 mt-6">
-            <div className="cursor-pointer text-center flex-1 px-4 py-2 hover:bg-slate-50 hover:text-slate-900 active">
+            <div
+              className={`cursor-pointer text-center flex-1 px-4 py-2 hover:bg-slate-50 hover:text-slate-900 ${
+                activeTab === 0 && "active"
+              }`}
+              onClick={() => {
+                setActiveTab(0);
+                setFromValue({ ...formValue, category: "Education" });
+              }}
+            >
               Expense
             </div>
-            <div className="cursor-pointer text-center flex-1 px-4 py-2 hover:bg-slate-50 hover:text-slate-900">
+            <div
+              className={`cursor-pointer text-center flex-1 px-4 py-2 hover:bg-slate-50 hover:text-slate-900 ${
+                activeTab === 1 && "active"
+              }`}
+              onClick={() => {
+                setActiveTab(1);
+                setFromValue({ ...formValue, category: "Salary" });
+              }}
+            >
               Income
             </div>
           </div>
@@ -29,17 +89,17 @@ const ExpenseInputFrom = () => {
               <select
                 id="category"
                 name="category"
+                onChange={handleChange}
                 autoComplete="category-name"
                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-teal-600 sm:text-sm sm:leading-6"
               >
-                <option>Education</option>
-                <option>Food</option>
-                <option>Health</option>
-                <option>Bill</option>
-                <option>Insurance</option>
-                <option>Tax</option>
-                <option>Transport</option>
-                <option>Telephone</option>
+                {activeTab
+                  ? tabValueVarient[1].map((data) => (
+                      <option key={data}>{data}</option>
+                    ))
+                  : tabValueVarient[0].map((data) => (
+                      <option key={data}>{data}</option>
+                    ))}
               </select>
             </div>
           </div>
@@ -53,8 +113,10 @@ const ExpenseInputFrom = () => {
             </label>
             <div className="mt-2">
               <input
+                onChange={handleChange}
                 type="number"
                 name="amount"
+                required
                 id="amount"
                 autoComplete="off"
                 placeholder="12931"
@@ -78,6 +140,7 @@ const ExpenseInputFrom = () => {
                 autoComplete="off"
                 placeholder="12931"
                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-teal-600 sm:text-sm sm:leading-6"
+                onChange={handleChange}
               />
             </div>
           </div>
@@ -88,7 +151,7 @@ const ExpenseInputFrom = () => {
           >
             Save
           </button>
-        </htmlForm>
+        </form>
       </div>
     </>
   );
