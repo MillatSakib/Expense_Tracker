@@ -8,6 +8,22 @@ const IncomeCard = ({
   setEditExpense,
   setActiveTab,
 }) => {
+  const handleSort = (sortDirection) => {
+    if (sortDirection) {
+      let temp = [...income];
+      temp.sort((a, b) => b.amount - a.amount);
+      setIncome([...temp]);
+    } else {
+      let temp = [...income];
+      temp.sort((a, b) => a.amount - b.amount);
+      setIncome([...temp]);
+    }
+  };
+
+  const handleFilter = (filterParameter) => {
+    console.log("Gello");
+  };
+
   return (
     <>
       <div className="border rounded-md relative">
@@ -95,6 +111,7 @@ const IncomeCard = ({
                     role="menuitem"
                     tabIndex="-1"
                     id="menu-item-0"
+                    onClick={() => handleSort(0)}
                   >
                     Low to High
                   </a>
@@ -104,6 +121,7 @@ const IncomeCard = ({
                     role="menuitem"
                     tabIndex="-1"
                     id="menu-item-0"
+                    onClick={() => handleSort(1)}
                   >
                     High to Low
                   </a>

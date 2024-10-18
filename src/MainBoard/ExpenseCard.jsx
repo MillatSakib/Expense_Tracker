@@ -8,6 +8,18 @@ const ExpenseCard = ({
   setActiveTab,
   setEditExpense,
 }) => {
+  const handleSort = (sortDirection) => {
+    if (sortDirection) {
+      let temp = [...expense];
+      temp.sort((a, b) => b.amount - a.amount);
+      setExpense([...temp]);
+    } else {
+      let temp = [...expense];
+      temp.sort((a, b) => a.amount - b.amount);
+      setExpense([...temp]);
+    }
+  };
+
   return (
     <>
       <div className="border rounded-md">
@@ -98,6 +110,7 @@ const ExpenseCard = ({
                     role="menuitem"
                     tabIndex="-1"
                     id="menu-item-0"
+                    onClick={() => handleSort(0)}
                   >
                     Low to High
                   </a>
@@ -107,6 +120,7 @@ const ExpenseCard = ({
                     role="menuitem"
                     tabIndex="-1"
                     id="menu-item-0"
+                    onClick={() => handleSort(1)}
                   >
                     High to Low
                   </a>
