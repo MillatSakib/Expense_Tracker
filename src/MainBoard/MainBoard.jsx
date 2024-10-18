@@ -5,8 +5,6 @@ import IncomeCard from "./IncomeCard";
 import ExpenseCard from "./ExpenseCard";
 
 const MainBoard = ({
-  info,
-  setInfo,
   expense,
   setExpense,
   income,
@@ -17,18 +15,28 @@ const MainBoard = ({
   setActiveTab,
   incomeState,
   expenseState,
+  activeEdit,
+  setActiveEdit,
+  editIncome,
+  setEditIncome,
+  editExpense,
+  setEditExpense,
 }) => {
   return (
     <>
       <main className="relative mx-auto mt-10 w-full max-w-7xl">
         <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           <ExpenseInputFrom
+            activeEdit={activeEdit}
+            setActiveEdit={setActiveEdit}
             activeTab={activeTab}
             setActiveTab={setActiveTab}
             expense={expense}
             setExpense={setExpense}
             income={income}
             setIncome={setIncome}
+            editExpense={editExpense}
+            setEditExpense={setEditExpense}
           />
           <div className="lg:col-span-2">
             <CalcualtionSummary
@@ -41,12 +49,18 @@ const MainBoard = ({
                 setSortFilter={setSortFilter}
                 income={income}
                 setIncome={setIncome}
+                activeTab={activeTab}
+                setActiveTab={setActiveTab}
+                setEditExpense={setEditExpense}
               />
               <ExpenseCard
                 expense={expense}
                 setExpense={setExpense}
                 sortFilter={sortFilter}
                 setSortFilter={setSortFilter}
+                activeTab={activeTab}
+                setActiveTab={setActiveTab}
+                setEditExpense={setEditExpense}
               />
             </div>
           </div>

@@ -3,7 +3,6 @@ import MainBoard from "./MainBoard/MainBoard.jsx";
 import { useEffect, useState } from "react";
 
 function App() {
-  const [info, setInfo] = useState({ income: 0, expense: 0, total: 0 });
   const [expense, setExpense] = useState([]);
   const [income, setIncome] = useState([]);
   const [sortFilter, setSortFilter] = useState({
@@ -12,7 +11,9 @@ function App() {
     expenseSort: false,
     expenseFilter: false,
   });
-
+  const [activeEdit, setActiveEdit] = useState(false);
+  const [editIncome, setEditIncome] = useState(null);
+  const [editExpense, setEditExpense] = useState(null);
   const [incomeState, setIncomeState] = useState(0);
   const [expenseState, setExpenseState] = useState(0);
   useEffect(() => {
@@ -43,8 +44,6 @@ function App() {
     >
       <Nav />
       <MainBoard
-        info={info}
-        setInfo={setInfo}
         expense={expense}
         setExpense={setExpense}
         income={income}
@@ -55,6 +54,12 @@ function App() {
         setActiveTab={setActiveTab}
         incomeState={incomeState}
         expenseState={expenseState}
+        activeEdit={activeEdit}
+        setActiveEdit={setActiveEdit}
+        editIncome={editIncome}
+        setEditIncome={setEditIncome}
+        editExpense={editExpense}
+        setEditExpense={setEditExpense}
       />
     </div>
   );

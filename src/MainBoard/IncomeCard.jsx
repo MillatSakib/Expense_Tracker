@@ -1,7 +1,13 @@
 import React, { useState } from "react";
 
-const IncomeCard = ({ setSortFilter, sortFilter, income, setIncome }) => {
-  console.log(income);
+const IncomeCard = ({
+  setSortFilter,
+  sortFilter,
+  income,
+  setIncome,
+  setEditExpense,
+  setActiveTab,
+}) => {
   return (
     <>
       <div className="border rounded-md relative">
@@ -271,7 +277,7 @@ const IncomeCard = ({ setSortFilter, sortFilter, income, setIncome }) => {
               >
                 <div>
                   <h3 className="text-base font-medium leading-7 text-gray-600">
-                    Salary
+                    {data.category}
                   </h3>
                   <p className="text-xs text-gray-600">{data?.date}</p>
                 </div>
@@ -285,6 +291,15 @@ const IncomeCard = ({ setSortFilter, sortFilter, income, setIncome }) => {
                       className="hover:text-teal-600"
                       role="button"
                       title="Edit Button"
+                      onClick={() => {
+                        setActiveTab(1);
+                        setEditExpense({
+                          replaceTo: index,
+                          amount: data.amount,
+                          date: data.date,
+                          category: data.category,
+                        });
+                      }}
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -307,6 +322,11 @@ const IncomeCard = ({ setSortFilter, sortFilter, income, setIncome }) => {
                       className="hover:text-red-600"
                       role="button"
                       title="Delete"
+                      onClick={() => {
+                        const temp = income;
+                        temp.splice(index, 1);
+                        setIncome([...temp]);
+                      }}
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"

@@ -2,11 +2,15 @@ import React, { useState } from "react";
 
 const ExpenseInputFrom = ({
   activeTab,
+  setActiveEdit,
   setActiveTab,
   expense,
   setExpense,
   income,
   setIncome,
+  activeEdit,
+  editExpense,
+  setEditExpense,
 }) => {
   const tabValueVarient = [
     [
@@ -21,28 +25,61 @@ const ExpenseInputFrom = ({
     ],
     ["Salary", "Outsourcing", "Bond", "Dividend"],
   ];
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (activeTab) {
-      let temp = [...income];
-      temp.push(formValue);
-      setIncome(temp);
+    if (!editExpense) {
+      if (activeTab) {
+        let temp = [...income];
+        temp.push(formValue);
+        setIncome(temp);
+      } else {
+        let temp = [...expense];
+        formValue.category
+          ? (formValue.category = formValue.category)
+          : (formValue.category = "Education");
+        temp.push(formValue);
+        setExpense(temp);
+      }
     } else {
-      let temp = [...expense];
-      temp.push(formValue);
-      setExpense(temp);
+      if (activeTab) {
+        let temp = [...income];
+        temp[editExpense.replaceTo] = {
+          category: editExpense.category,
+          date: editExpense.date,
+          amount: editExpense.amount,
+        };
+        setIncome(temp);
+        setEditExpense(null);
+      } else {
+        let temp = [...expense];
+        temp[editExpense.replaceTo] = {
+          category: editExpense.category,
+          date: editExpense.date,
+          amount: editExpense.amount,
+        };
+        setExpense(temp);
+        setEditExpense(null);
+      }
     }
   };
 
   const [formValue, setFromValue] = useState({});
   const handleChange = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
-    setFromValue({
-      ...formValue,
-      [name]: value,
-    });
+    if (editExpense) {
+      const name = e.target.name;
+      const value = e.target.value;
+      setEditExpense({
+        ...editExpense,
+        [name]: value,
+      });
+    } else {
+      const name = e.target.name;
+      const value = e.target.value;
+      setFromValue({
+        ...formValue,
+        [name]: value,
+      });
+    }
   };
 
   return (
@@ -91,6 +128,7 @@ const ExpenseInputFrom = ({
                 name="category"
                 onChange={handleChange}
                 autoComplete="category-name"
+                value={editExpense && editExpense?.category}
                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-teal-600 sm:text-sm sm:leading-6"
               >
                 {activeTab
@@ -118,6 +156,7 @@ const ExpenseInputFrom = ({
                 name="amount"
                 required
                 id="amount"
+                value={editExpense && editExpense.amount}
                 autoComplete="off"
                 placeholder="12931"
                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-teal-600 sm:text-sm sm:leading-6"
@@ -134,7 +173,9 @@ const ExpenseInputFrom = ({
             </label>
             <div className="mt-2">
               <input
+                value={editExpense && editExpense.date}
                 type="date"
+                required
                 name="date"
                 id="date"
                 autoComplete="off"

@@ -1,6 +1,13 @@
 import React from "react";
 
-const ExpenseCard = ({ setSortFilter, sortFilter, expense, setExpense }) => {
+const ExpenseCard = ({
+  setSortFilter,
+  sortFilter,
+  expense,
+  setExpense,
+  setActiveTab,
+  setEditExpense,
+}) => {
   return (
     <>
       <div className="border rounded-md">
@@ -199,7 +206,7 @@ const ExpenseCard = ({ setSortFilter, sortFilter, expense, setExpense }) => {
               <div className="flex justify-between items-center py-2 relative group cursor-pointer">
                 <div>
                   <h3 className="text-base font-medium leading-7 text-gray-600">
-                    Education
+                    {data.category}
                   </h3>
                   <p className="text-xs text-gray-600">{data.date}</p>
                 </div>
@@ -207,12 +214,20 @@ const ExpenseCard = ({ setSortFilter, sortFilter, expense, setExpense }) => {
                   <p className="text-base font-semibold text-gray-600 transition-all group-hover:-translate-x-14">
                     BDT {data.amount}
                   </p>
-
                   <div className="translate-x-5 group-hover:translate-x-0 opacity-0 group-hover:opacity-100 absolute right-0 top-1/2 -translate-y-1/2 transition-all">
                     <button
                       className="hover:text-teal-600"
                       role="button"
                       title="Edit Button"
+                      onClick={() => {
+                        setActiveTab(0);
+                        setEditExpense({
+                          replaceTo: index,
+                          amount: data.amount,
+                          date: data.date,
+                          category: data.category,
+                        });
+                      }}
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -235,6 +250,11 @@ const ExpenseCard = ({ setSortFilter, sortFilter, expense, setExpense }) => {
                       className="hover:text-red-600"
                       role="button"
                       title="Delete"
+                      onClick={() => {
+                        const temp = expense;
+                        temp.splice(index, 1);
+                        setExpense([...temp]);
+                      }}
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
