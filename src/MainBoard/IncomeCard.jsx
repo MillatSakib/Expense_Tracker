@@ -31,16 +31,13 @@ const IncomeCard = ({
 
     setFilterParameter((prev) => {
       if (checked) {
-        // Add category to filter
         return [...prev, value];
       } else {
-        // Remove category from filter
         return prev.filter((item) => item !== value);
       }
     });
   };
 
-  // Filter income based on selected filterParameter
   const filteredIncome = income.filter(
     (item) =>
       filterParameter.length === 0 || filterParameter.includes(item.category)

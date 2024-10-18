@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 const ExpenseCard = ({
   setSortFilter,
@@ -8,6 +8,11 @@ const ExpenseCard = ({
   setActiveTab,
   setEditExpense,
 }) => {
+  const [filterParameter, setFilterParameter] = useState([]);
+  useEffect(() => {
+    setFilterParameter([]);
+  }, [expense]);
+
   const handleSort = (sortDirection) => {
     if (sortDirection) {
       let temp = [...expense];
@@ -19,6 +24,24 @@ const ExpenseCard = ({
       setExpense([...temp]);
     }
   };
+
+  const handleFilter = (e) => {
+    const value = e.target.value;
+    const checked = e.target.checked;
+
+    setFilterParameter((prev) => {
+      if (checked) {
+        return [...prev, value];
+      } else {
+        return prev.filter((item) => item !== value);
+      }
+    });
+  };
+
+  const filteredExpense = expense.filter(
+    (item) =>
+      filterParameter.length === 0 || filterParameter.includes(item.category)
+  );
 
   return (
     <>
@@ -183,10 +206,13 @@ const ExpenseCard = ({
                 <div
                   className={`py-1 ${sortFilter.expenseSort || "hidden"}`}
                   role="none"
+                  onClick={(e) => e.stopPropagation()}
                 >
                   <label className="inline-flex items-center px-4 py-2 text-sm text-gray-700">
                     <input
                       type="checkbox"
+                      value="Education"
+                      onChange={(e) => handleFilter(e)}
                       className="htmlForm-checkbox h-4 w-4 rounded-md text-gray-600"
                       id="filter-option-1"
                     />
@@ -195,6 +221,8 @@ const ExpenseCard = ({
                   <label className="inline-flex items-center px-4 py-2 text-sm text-gray-700">
                     <input
                       type="checkbox"
+                      value="Food"
+                      onChange={(e) => handleFilter(e)}
                       className="htmlForm-checkbox h-4 w-4 rounded-md text-gray-600"
                       id="filter-option-2"
                     />
@@ -203,10 +231,66 @@ const ExpenseCard = ({
                   <label className="inline-flex items-center px-4 py-2 text-sm text-gray-700">
                     <input
                       type="checkbox"
+                      onChange={(e) => handleFilter(e)}
+                      value="Health"
                       className="htmlForm-checkbox h-4 w-4 rounded-md text-gray-600"
                       id="filter-option-3"
                     />
                     <span className="ml-2">Health</span>
+                  </label>
+
+                  <label className="inline-flex items-center px-4 py-2 text-sm text-gray-700">
+                    <input
+                      type="checkbox"
+                      onChange={(e) => handleFilter(e)}
+                      value="Bill"
+                      className="htmlForm-checkbox h-4 w-4 rounded-md text-gray-600"
+                      id="filter-option-3"
+                    />
+                    <span className="ml-2">Bill</span>
+                  </label>
+
+                  <label className="inline-flex items-center px-4 py-2 text-sm text-gray-700">
+                    <input
+                      type="checkbox"
+                      onChange={(e) => handleFilter(e)}
+                      value="Insurance"
+                      className="htmlForm-checkbox h-4 w-4 rounded-md text-gray-600"
+                      id="filter-option-3"
+                    />
+                    <span className="ml-2">Insurance</span>
+                  </label>
+
+                  <label className="inline-flex items-center px-4 py-2 text-sm text-gray-700">
+                    <input
+                      type="checkbox"
+                      onChange={(e) => handleFilter(e)}
+                      value="Tax"
+                      className="htmlForm-checkbox h-4 w-4 rounded-md text-gray-600"
+                      id="filter-option-3"
+                    />
+                    <span className="ml-2">Tax</span>
+                  </label>
+
+                  <label className="inline-flex items-center px-4 py-2 text-sm text-gray-700">
+                    <input
+                      type="checkbox"
+                      onChange={(e) => handleFilter(e)}
+                      value="Transport"
+                      className="htmlForm-checkbox h-4 w-4 rounded-md text-gray-600"
+                      id="filter-option-3"
+                    />
+                    <span className="ml-2">Transport</span>
+                  </label>
+                  <label className="inline-flex items-center px-4 py-2 text-sm text-gray-700">
+                    <input
+                      type="checkbox"
+                      onChange={(e) => handleFilter(e)}
+                      value="Telephone"
+                      className="htmlForm-checkbox h-4 w-4 rounded-md text-gray-600"
+                      id="filter-option-3"
+                    />
+                    <span className="ml-2">Telephone</span>
                   </label>
                 </div>
               </div>
@@ -215,7 +299,7 @@ const ExpenseCard = ({
         </div>
 
         <div className="p-4 divide-y">
-          {expense.map((data, index) => (
+          {filteredExpense.map((data, index) => (
             <>
               <div className="flex justify-between items-center py-2 relative group cursor-pointer">
                 <div>
